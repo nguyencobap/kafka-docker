@@ -1,0 +1,10 @@
+rm -rf kafka1/data/*
+rm -rf kafka2/data/*
+rm -rf kafka3/data/*
+rm -rf zookeeper/data/*
+rm -rf zookeeper/log/*
+rm -rf kafka1/data/.*
+rm -rf kafka2/data/.*
+rm -rf kafka3/data/.*
+rm -rf zookeeper/data/.*
+rm -rf zookeeper/log/.*

@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.2
+    ports:
+      - ${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}
+    environment:
+      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - ./zookeeper/data:/var/lib/zookeeper/data
+      - ./zookeeper/log:/var/lib/zookeeper/log
+  kafka:
+    image: confluentinc/cp-kafka:7.3.2
+    depends_on:
+      - zookeeper
+    ports:
+      - ${KAFKA_PORT}:${KAFKA_PORT}
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
+      KAFKA_INTER_BROKER_LISTENER_NAME: SSL
+      KAFKA_ADVERTISED_LISTENERS: SSL://${KAFKA_HOST}:${KAFKA_PORT}
+      KAFKA_SSL_KEYSTORE_FILENAME: keystore/kafka.keystore.jks
+      KAFKA_SSL_KEYSTORE_CREDENTIALS: key_creds.txt
+      KAFKA_SSL_TRUSTSTORE_FILENAME: truststore/kafka.truststore.jks
+      KAFKA_SSL_TRUSTSTORE_CREDENTIALS: key_creds.txt
+      KAFKA_SSL_KEY_CREDENTIALS: key_creds.txt
+      KAFKA_SSL_CLIENT_AUTH: required
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
+    volumes:
+      - "../secrets:/etc/kafka/secrets"
+      - "./kafka/data:/var/lib/kafka/data"
