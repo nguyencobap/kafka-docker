@@ -9,8 +9,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
       ZOOKEEPER_TICK_TIME: 2000
     volumes:
-      - ./zookeeper/data:/var/lib/zookeeper/data
-      - ./zookeeper/log:/var/lib/zookeeper/log
+      - ${ZOOKEEPER_DATA_PATH}:/var/lib/zookeeper/
   kafka1:
     image: confluentinc/cp-kafka:7.3.2
     depends_on:
@@ -25,7 +24,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
     volumes:
-      - "./kafka1/data:/var/lib/kafka/data"
+      - ${KAFKA1_DATA_PATH}:/var/lib/kafka/data
   kafka2:
     image: confluentinc/cp-kafka:7.3.2
     depends_on:
@@ -40,7 +39,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
     volumes:
-      - "./kafka2/data:/var/lib/kafka/data"
+      - ${KAFKA2_DATA_PATH}:/var/lib/kafka/data
   kafka3:
     image: confluentinc/cp-kafka:7.3.2
     depends_on:
@@ -55,4 +54,4 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
     volumes:
-      - "./kafka3/data:/var/lib/kafka/data"
+      - ${KAFKA3_DATA_PATH}:/var/lib/kafka/data

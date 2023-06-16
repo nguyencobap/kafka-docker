@@ -9,8 +9,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
       ZOOKEEPER_TICK_TIME: 2000
     volumes:
-      - ./zookeeper/data:/var/lib/zookeeper/data
-      - ./zookeeper/log:/var/lib/zookeeper/log
+      - ${ZOOKEEPER_DATA_PATH}:/var/lib/zookeeper/
   kafka:
     image: confluentinc/cp-kafka:7.3.2
     depends_on:
@@ -30,5 +29,5 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_SSL_ENDPOINT_IDENTIFICATION_ALGORITHM: ""
     volumes:
-      - "../secrets:/etc/kafka/secrets"
-      - "./kafka/data:/var/lib/kafka/data"
+      - ${SECRET_DATA_PATH}:/etc/kafka/secrets
+      - ${KAFKA_DATA_PATH}:/var/lib/kafka/data
